@@ -26,12 +26,12 @@ function my_streaming_callback($data, $length, $metrics) {
 	//echo $data .PHP_EOL;
 	global $fp;
 	global $collection;
-	echo "my streaming";
+	//echo "my streaming";
 	$dataArray = json_decode($data, true);
 	//print_r($dataArray);
 	if(!empty($dataArray)){
-			print_r(array((string)$dataArray["created_at"],(string)$dataArray["id"],(string)$dataArray["text"],(string)$dataArray["user"]["screen_name"],(string)$dataArray["lang"]));
-			fputcsv($fp, array($dataArray["created_at"],$dataArray["id"],$dataArray["text"],$dataArray["user"]["screen_name"],$dataArray["lang"]));
+			print_r((string)$dataArray["text"]);
+			fputcsv($fp, array($dataArray["created_at"],$dataArray["id"],$dataArray["text"],$dataArray["user"]["screen_name"],$dataArray["user"]["followers_count"]));
 			$collection->insert($dataArray);
 			echo "Document inserted successfully";
 	}  
@@ -48,7 +48,7 @@ $tmhOAuth = new tmhOAuth(array(
 ));
 
 $method = 'https://stream.twitter.com/1/statuses/filter.json';
-$word=  rawurlencode('คสช');
+$word=  rawurlencode('ประยุทธ์');
 $params = array(
 	'track'     => $word,
 	
@@ -60,11 +60,11 @@ $dbname = 'mydb';
 $m = new Mongo("mongodb://$dbhost");  
 $db = $m->$dbname;  
 // select the collection  
-$collection = $db->twitterStreamTest;
-echo "Collection selected succsessfully";
+$collection = $db->streamPrayuth;
+echo "Collection selected succsessfully\n";
 
 $fp = fopen('output.csv', 'w');
-fputcsv($fp,array('created_at','id','text','screen_name','lang'));
+fputcsv($fp,array('created_at','id','text','screen_name','number of follower'));
 
 $tmhOAuth->streaming_request('POST', $method, $params, 'my_streaming_callback');
 
