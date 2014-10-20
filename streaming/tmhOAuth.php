@@ -635,7 +635,7 @@ class tmhOAuth {
 
     // configure curl
    // echo 'curlTrying';
-    $c = curl_init();
+   //$c = curl_init();
     // echo 'curlInit';
   
     curl_setopt_array($c, array(
