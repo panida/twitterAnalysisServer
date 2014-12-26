@@ -47,8 +47,8 @@ $tmhOAuth = new tmhOAuth(array(
 		'user_secret'     => '9n2upQxbaZ5gRhKkOoJFghBdqJVW2KHfIKyZdqIviRLQZ',
 ));
 
-$method = 'https://stream.twitter.com/1/statuses/filter.json';
-$word=  rawurlencode('ประยุทธ์');
+$method = 'https://stream.twitter.com/1.1/statuses/filter.json';
+$word=  rawurlencode('ปฏิวัติซ้อน,เลือกตั้ง,ศรีรัศมิ์,ฟ้าชาย,โลกมืด6วัน,บุษบา,ในหลวง,สำนักพระราชวัง,รัฐธรรมนูญ,พงษ์พัฒน์,ทักษิณ');
 $params = array(
 	'track'     => $word,
 	
@@ -60,10 +60,11 @@ $dbname = 'mydb';
 $m = new Mongo("mongodb://$dbhost");  
 $db = $m->$dbname;  
 // select the collection  
-$collection = $db->streamPrayuth;
+$collection = $db->streamCase2;
 echo "Collection selected succsessfully\n";
 
 $fp = fopen('output.csv', 'w');
+
 fputcsv($fp,array('created_at','id','text','screen_name','number of follower'));
 
 $tmhOAuth->streaming_request('POST', $method, $params, 'my_streaming_callback');
